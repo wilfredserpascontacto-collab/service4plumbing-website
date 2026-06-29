@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Service 4 Plumbing — Operations Dashboard</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --blue:      #1d4ed8;
+      --blue-dk:   #1e3a5f;
+      --blue-lt:   #dbeafe;
+      --blue-mid:  #2563eb;
+      --green:     #10b981;
+      --green-lt:  #d1fae5;
+      --yellow:    #f59e0b;
+      --yellow-lt: #fef3c7;
+      --red:       #ef4444;
+      --red-lt:    #fee2e2;
+      --purple:    #8b5cf6;
+      --purple-lt: #ede9fe;
+      --gray-50:   #f8fafc;
+      --gray-100:  #f1f5f9;
+      --gray-200:  #e2e8f0;
+      --gray-400:  #94a3b8;
+      --gray-600:  #475569;
+      --gray-800:  #1e293b;
+      --sidebar-w: 220px;
+      --font: 'Segoe UI', system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--gray-100); color: var(--gray-800); display: flex; min-height: 100vh; font-size: 13px; }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--blue-dk);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 50;
+    }
+    .sidebar-logo {
+      padding: 20px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-icon {
+      background: var(--blue);
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 800;
+    }
+    .logo-text { font-size: 13px; font-weight: 700; line-height: 1.3; }
+    .logo-sub  { font-size: 10px; color: rgba(255,255,255,0.5); }
+
+    .sidebar-section { padding: 16px 12px 6px; font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 16px;
+      cursor: pointer;
+      border-radius: 8px;
+      margin: 1px 8px;
+      color: rgba(255,255,255,0.65);
+      font-size: 13px;
+      transition: all 0.15s;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.07); color: white; }
+    .nav-item.active { background: var(--blue); color: white; }
+    .nav-item .icon { width: 16px; text-align: center; font-size: 14px; }
+    .nav-badge { margin-left: auto; background: var(--yellow); color: var(--gray-800); font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 99px; }
+    .nav-badge.red { background: var(--red); color: white; }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 16px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* ── MAIN ── */
+    .main { margin-left: var(--sidebar-w); flex: 1; display: flex; flex-direction: column; }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: white;
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+    .topbar-left h1 { font-size: 16px; font-weight: 700; color: var(--blue-dk); }
+    .topbar-left span { font-size: 11.5px; color: var(--gray-400); }
+    .topbar-right { display: flex; align-items: center; gap: 16px; }
+    .ai-status {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--green-lt);
+      color: var(--green);
+      font-size: 11.5px; font-weight: 600;
+      padding: 5px 12px; border-radius: 99px;
+    }
+    .ai-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .notif-btn {
+      width: 34px; height: 34px; border-radius: 8px;
+      background: var(--gray-100); border: none; cursor: pointer;
+      font-size: 16px; display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .notif-dot { position: absolute; top: 6px; right: 6px; width: 7px; height: 7px; border-radius: 50%; background: var(--red); }
+    .avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--blue); color: white; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+
+    /* ── CONTENT ── */
+    .content { padding: 24px; flex: 1; }
+
+    /* ── KPI CARDS ── */
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+    .kpi-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid var(--gray-200);
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .kpi-card.blue::after  { background: var(--blue); }
+    .kpi-card.green::after { background: var(--green); }
+    .kpi-card.yellow::after{ background: var(--yellow); }
+    .kpi-card.purple::after{ background: var(--purple); }
+
+    .kpi-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .kpi-label { font-size: 11.5px; font-weight: 600; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.06em; }
+    .kpi-icon { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 17px; }
+    .kpi-icon.blue  { background: var(--blue-lt); }
+    .kpi-icon.green { background: var(--green-lt); }
+    .kpi-icon.yellow{ background: var(--yellow-lt); }
+    .kpi-icon.purple{ background: var(--purple-lt); }
+    .kpi-value { font-size: 28px; font-weight: 800; color: var(--gray-800); line-height: 1; margin-bottom: 6px; }
+    .kpi-change { font-size: 11.5px; font-weight: 600; }
+    .kpi-change.up   { color: var(--green); }
+    .kpi-change.down { color: var(--red); }
+    .kpi-change span { color: var(--gray-400); font-weight: 400; }
+
+    /* ── GRID LAYOUT ── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+    .grid-3 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 24px; }
+
+    /* ── CARD ── */
+    .card {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-title { font-size: 13.5px; font-weight: 700; color: var(--gray-800); }
+    .card-sub   { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+    .card-body  { padding: 20px; }
+    .card-badge {
+      font-size: 10.5px; font-weight: 600; padding: 3px 10px; border-radius: 99px;
+    }
+    .cb-green  { background: var(--green-lt);  color: var(--green); }
+    .cb-blue   { background: var(--blue-lt);   color: var(--blue); }
+    .cb-yellow { background: var(--yellow-lt); color: var(--yellow); }
+    .cb-red    { background: var(--red-lt);    color: var(--red); }
+
+    /* ── AI AGENT CARD ── */
+    .ai-card {
+      background: linear-gradient(135deg, var(--blue-dk) 0%, var(--blue) 100%);
+      border-radius: 12px;
+      padding: 20px;
+      color: white;
+      margin-bottom: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 0;
+    }
+    .ai-header {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .ai-title { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .ai-title-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 1.5s infinite; }
+    .ai-powered { font-size: 10px; color: rgba(255,255,255,0.5); }
+    .ai-metric { text-align: center; padding: 0 20px; border-right: 1px solid rgba(255,255,255,0.12); }
+    .ai-metric:last-child { border-right: none; }
+    .ai-m-val { font-size: 26px; font-weight: 800; margin-bottom: 4px; }
+    .ai-m-label { font-size: 11px; color: rgba(255,255,255,0.6); }
+    .ai-m-sub   { font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+
+    /* ── CALL LOG ── */
+    .call-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .call-item:last-child { border-bottom: none; }
+    .call-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 13px; flex-shrink: 0;
+    }
+    .call-info { flex: 1; }
+    .call-name  { font-size: 12.5px; font-weight: 600; }
+    .call-detail{ font-size: 11px; color: var(--gray-400); margin-top: 1px; }
+    .call-right { text-align: right; }
+    .call-time  { font-size: 11px; color: var(--gray-400); }
+    .call-tag {
+      display: inline-block;
+      font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 99px; margin-top: 3px;
+    }
+    .tag-booked { background: var(--green-lt); color: var(--green); }
+    .tag-info   { background: var(--blue-lt);  color: var(--blue); }
+    .tag-missed { background: var(--red-lt);   color: var(--red); }
+    .tag-cb     { background: var(--yellow-lt);color: var(--yellow); }
+
+    /* ── PIPELINE ── */
+    .pipeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .pipeline-col { }
+    .pipeline-header {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; padding: 8px 12px; border-radius: 8px;
+      margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .ph-new      { background: var(--blue-lt);   color: var(--blue); }
+    .ph-progress { background: var(--yellow-lt); color: var(--yellow); }
+    .ph-done     { background: var(--green-lt);  color: var(--green); }
+    .ph-invoice  { background: var(--purple-lt); color: var(--purple); }
+    .pipeline-count { font-size: 14px; font-weight: 800; }
+
+    .job-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 8px;
+      cursor: default;
+      transition: box-shadow 0.15s;
+    }
+    .job-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+    .job-service { font-size: 12px; font-weight: 700; color: var(--gray-800); margin-bottom: 4px; }
+    .job-client  { font-size: 11px; color: var(--gray-600); margin-bottom: 6px; }
+    .job-footer  { display: flex; justify-content: space-between; align-items: center; }
+    .job-time    { font-size: 10.5px; color: var(--gray-400); }
+    .job-price   { font-size: 12px; font-weight: 700; color: var(--blue); }
+    .job-priority {
+      display: inline-block;
+      width: 7px; height: 7px; border-radius: 50%; margin-right: 4px;
+    }
+    .p-high   { background: var(--red); }
+    .p-medium { background: var(--yellow); }
+    .p-low    { background: var(--green); }
+
+    /* ── SCHEDULE ── */
+    .schedule-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .schedule-item:last-child { border-bottom: none; }
+    .sched-time { font-size: 11.5px; font-weight: 700; color: var(--blue); min-width: 48px; padding-top: 2px; }
+    .sched-bar  { width: 3px; border-radius: 3px; min-height: 38px; flex-shrink: 0; }
+    .sb-blue   { background: var(--blue); }
+    .sb-green  { background: var(--green); }
+    .sb-yellow { background: var(--yellow); }
+    .sb-red    { background: var(--red); }
+    .sched-info { flex: 1; }
+    .sched-name { font-size: 12.5px; font-weight: 600; margin-bottom: 2px; }
+    .sched-detail { font-size: 11px; color: var(--gray-400); }
+    .sched-right { text-align: right; }
+    .sched-tech { font-size: 11px; font-weight: 600; color: var(--gray-600); }
+    .sched-price{ font-size: 12px; font-weight: 700; color: var(--green); }
+
+    /* ── REVENUE SUMMARY ── */
+    .rev-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 0; border-bottom: 1px solid var(--gray-100);
+    }
+    .rev-item:last-child { border-bottom: none; }
+    .rev-label { font-size: 12px; font-weight: 600; color: var(--gray-600); display: flex; align-items: center; gap: 8px; }
+    .rev-dot   { width: 10px; height: 10px; border-radius: 50%; }
+    .rev-val   { font-size: 13px; font-weight: 700; }
+    .rev-pct   { font-size: 10.5px; color: var(--gray-400); }
+
+    /* ── CHART ── */
+    .chart-wrap { position: relative; height: 200px; }
+
+    /* ── TECHNICIANS ── */
+    .tech-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .tech-item:last-child { border-bottom: none; }
+    .tech-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      font-weight: 700; font-size: 13px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .tech-info { flex: 1; }
+    .tech-name   { font-size: 12.5px; font-weight: 600; }
+    .tech-status { font-size: 11px; color: var(--gray-400); margin-top: 1px; }
+    .tech-jobs   { font-size: 11.5px; font-weight: 700; color: var(--blue); }
+
+    /* ── PROGRESS BAR ── */
+    .progress-wrap { margin-top: 4px; }
+    .progress-bar { height: 4px; background: var(--gray-200); border-radius: 99px; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 99px; transition: width 1s ease; }
+
+    /* ── ACTIVITY FEED ── */
+    .activity-item {
+      display: flex; gap: 12px; padding: 10px 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .activity-item:last-child { border-bottom: none; }
+    .act-icon {
+      width: 30px; height: 30px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; flex-shrink: 0;
+    }
+    .act-text  { font-size: 12px; color: var(--gray-600); line-height: 1.5; }
+    .act-text strong { color: var(--gray-800); }
+    .act-time  { font-size: 10.5px; color: var(--gray-400); margin-top: 2px; }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 99px; }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════
+     SIDEBAR
+════════════════════════════════════ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">S4</div>
+    <div>
+      <div class="logo-text">Service 4 Plumbing</div>
+      <div class="logo-sub">Operations Center</div>
+    </div>
+  </div>
+
+  <div class="sidebar-section">Main</div>
+  <div class="nav-item active"><span class="icon">📊</span> Dashboard</div>
+  <div class="nav-item"><span class="icon">📋</span> Work Orders <span class="nav-badge">7</span></div>
+  <div class="nav-item"><span class="icon">📅</span> Schedule</div>
+  <div class="nav-item"><span class="icon">👥</span> Customers</div>
+  <div class="nav-item"><span class="icon">💰</span> Invoices</div>
+
+  <div class="sidebar-section">AI Agent</div>
+  <div class="nav-item"><span class="icon">🤖</span> Call Agent <span class="nav-badge red">3</span></div>
+  <div class="nav-item"><span class="icon">📞</span> Call Log</div>
+  <div class="nav-item"><span class="icon">💬</span> Web Chat</div>
+
+  <div class="sidebar-section">Marketing</div>
+  <div class="nav-item"><span class="icon">📈</span> Advertising</div>
+  <div class="nav-item"><span class="icon">⭐</span> Reviews</div>
+  <div class="nav-item"><span class="icon">🌐</span> Website</div>
+
+  <div class="sidebar-section">Settings</div>
+  <div class="nav-item"><span class="icon">⚙️</span> Settings</div>
+
+  <div class="sidebar-footer">
+    Service 4 Plumbing, Inc.<br>CA Lic. #1004766
+  </div>
+</aside>
+
+<!-- ════════════════════════════════════
+     MAIN
+════════════════════════════════════ -->
+<main class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <h1>Operations Dashboard</h1>
+      <span id="live-date"></span>
+    </div>
+    <div class="topbar-right">
+      <div class="ai-status">
+        <div class="ai-dot"></div>
+        AI Agent Online
+      </div>
+      <button class="notif-btn">🔔<div class="notif-dot"></div></button>
+      <div class="avatar">N</div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card blue">
+        <div class="kpi-top">
+          <div class="kpi-label">Revenue (May)</div>
+          <div class="kpi-icon blue">💵</div>
+        </div>
+        <div class="kpi-value">$18,340</div>
+        <div class="kpi-change up">↑ 12.4% <span>vs last month</span></div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-top">
+          <div class="kpi-label">Jobs Completed</div>
+          <div class="kpi-icon green">✅</div>
+        </div>
+        <div class="kpi-value">47</div>
+        <div class="kpi-change up">↑ 8 jobs <span>vs last month</span></div>
+      </div>
+      <div class="kpi-card yellow">
+        <div class="kpi-top">
+          <div class="kpi-label">Calls This Month</div>
+          <div class="kpi-icon yellow">📞</div>
+        </div>
+        <div class="kpi-value">134</div>
+        <div class="kpi-change up">↑ 23 <span>AI handled 89</span></div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-top">
+          <div class="kpi-label">New Customers</div>
+          <div class="kpi-icon purple">🏠</div>
+        </div>
+        <div class="kpi-value">31</div>
+        <div class="kpi-change up">↑ 19% <span>from web + calls</span></div>
+      </div>
+    </div>
+
+    <!-- AI AGENT BANNER -->
+    <div class="ai-card">
+      <div class="ai-header">
+        <div>
+          <div class="ai-title"><div class="ai-title-dot"></div> AI Voice Agent — Live</div>
+          <div class="ai-powered" style="margin-top:4px;">Powered by Bland.ai · Answering calls 24/7 · EN/ES</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <div style="background:rgba(255,255,255,0.1);border-radius:8px;padding:6px 14px;font-size:11px;">Configure Agent</div>
+          <div style="background:var(--green);border-radius:8px;padding:6px 14px;font-size:11px;font-weight:700;">● Active</div>
+        </div>
+      </div>
+      <div class="ai-metric">
+        <div class="ai-m-val">89</div>
+        <div class="ai-m-label">Calls Handled by AI</div>
+        <div class="ai-m-sub">This month</div>
+      </div>
+      <div class="ai-metric">
+        <div class="ai-m-val">67%</div>
+        <div class="ai-m-label">Resolution Rate</div>
+        <div class="ai-m-sub">No human needed</div>
+      </div>
+      <div class="ai-metric">
+        <div class="ai-m-val">23</div>
+        <div class="ai-m-label">Appointments Booked</div>
+        <div class="ai-m-sub">Auto-scheduled</div>
+      </div>
+      <div class="ai-metric">
+        <div class="ai-m-val">$0.09</div>
+        <div class="ai-m-label">Cost Per Minute</div>
+        <div class="ai-m-sub">~$8.01 total this month</div>
+      </div>
+    </div>
+
+    <!-- PIPELINE + SCHEDULE -->
+    <div style="margin-bottom:24px;">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Work Order Pipeline</div>
+            <div class="card-sub">Active jobs across all technicians</div>
+          </div>
+          <span class="card-badge cb-blue">Today · May 26</span>
+        </div>
+        <div class="card-body">
+          <div class="pipeline">
+
+            <!-- NEW -->
+            <div class="pipeline-col">
+              <div class="pipeline-header ph-new">
+                New <span class="pipeline-count">4</span>
+              </div>
+              <div class="job-card">
+                <div class="job-service"><span class="job-priority p-high"></span>Water Heater Repair</div>
+                <div class="job-client">📍 Robert M. · Oakland</div>
+                <div class="job-footer">
+                  <span class="job-time">Called 8:14am</span>
+                  <span class="job-price">~$350</span>
+                </div>
+              </div>
+              <div class="job-card">
+                <div class="job-service"><span class="job-priority p-medium"></span>Drain Cleaning</div>
+                <div class="job-client">📍 Patricia L. · Hayward</div>
+                <div class="job-footer">
+                  <span class="job-time">Called 9:02am</span>
+                  <span class="job-price">~$180</span>
+                </div>
+              </div>
+              <div class="job-card">
+                <div class="job-service"><span class="job-priority p-low"></span>Leak Inspection</div>
+                <div class="job-client">📍 Tom W. · Berkeley</div>
+                <div class="job-footer">
+                  <span class="job-time">Web form</span>
+                  <span class="job-price">~$120</span>
+                </div>
+              </div>
+              <div class="job-card">
+                <div class="job-service"><span class="job-priority p-medium"></span>Toilet Repair</div>
+                <div class="job-client">📍 Sandra K. · Fremont</div>
+                <div class="job-footer">
+                  <span class="job-time">AI Agent</span>
+                  <span class="job-price">~$200</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- IN PROGRESS -->
+            <div class="pipeline-col">
+              <div class="pipeline-header ph-progress">
+                In Progress <span class="pipeline-count">2</span>
+              </div>
+              <div class="job-card">
+                <div class="job-service"><span class="job-priority p-high"></span>Slab Leak Repair</div>
+                <div class="job-client">📍 James R. · San Leandro</div>
+                <div class="job-footer">
+                  <span class="job-time">Since 10:00am</span>
+                  <span class="job-price">$1,200</span>
+                </div>
+              </div>
+              <div class="job-card">
+                <div class="job-service"><span class="job-priority p-medium"></span>Repiping — Full Home</div>
+                <div class="job-client">📍 Chen Family · Fremont</div>
+                <div class="job-footer">
+                  <span class="job-time">Day 1 of 1</span>
+                  <span class="job-price">$3,800</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- COMPLETED -->
+            <div class="pipeline-col">
+              <div class="pipeline-header ph-done">
+                Completed <span class="pipeline-count">3</span>
+              </div>
+              <div class="job-card">
+                <div class="job-service">Water Heater Install</div>
+                <div class="job-client">📍 Margot D. · San Leandro</div>
+                <div class="job-footer">
+                  <span class="job-time">Done 9:45am</span>
+                  <span class="job-price">$890</span>
+                </div>
+              </div>
+              <div class="job-card">
+                <div class="job-service">Hydro Jetting</div>
+                <div class="job-client">📍 Office Bldg · Oakland</div>
+                <div class="job-footer">
+                  <span class="job-time">Done 8:30am</span>
+                  <span class="job-price">$450</span>
+                </div>
+              </div>
+              <div class="job-card">
+                <div class="job-service">Gas Line Repair</div>
+                <div class="job-client">📍 Luis P. · Alameda</div>
+                <div class="job-footer">
+                  <span class="job-time">Done 7:50am</span>
+                  <span class="job-price">$620</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- INVOICE -->
+            <div class="pipeline-col">
+              <div class="pipeline-header ph-invoice">
+                To Invoice <span class="pipeline-count">2</span>
+              </div>
+              <div class="job-card">
+                <div class="job-service">Trenchless Sewer</div>
+                <div class="job-client">📍 K. Anderson · Berkeley</div>
+                <div class="job-footer">
+                  <span class="job-time">Completed Fri</span>
+                  <span class="job-price">$4,200</span>
+                </div>
+              </div>
+              <div class="job-card">
+                <div class="job-service">Bathroom Remodel</div>
+                <div class="job-client">📍 Rivera Home · Hayward</div>
+                <div class="job-footer">
+                  <span class="job-time">Completed Thu</span>
+                  <span class="job-price">$2,700</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM ROW -->
+    <div class="grid-2">
+
+      <!-- CALL LOG -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">AI Call Log — Today</div>
+            <div class="card-sub">Last 6 calls · Agent handled 5 of 6</div>
+          </div>
+          <span class="card-badge cb-green">Live</span>
+        </div>
+        <div class="card-body" style="padding-top:8px;padding-bottom:8px;">
+          <div class="call-item">
+            <div class="call-avatar" style="background:var(--blue-lt);color:var(--blue);">R</div>
+            <div class="call-info">
+              <div class="call-name">Robert M. · (510) 555-0182</div>
+              <div class="call-detail">Water heater not heating · San Leandro</div>
+            </div>
+            <div class="call-right">
+              <div class="call-time">9:14am · 3m 22s</div>
+              <span class="call-tag tag-booked">Appointment Booked</span>
+            </div>
+          </div>
+          <div class="call-item">
+            <div class="call-avatar" style="background:var(--green-lt);color:var(--green);">P</div>
+            <div class="call-info">
+              <div class="call-name">Patricia L. · (510) 555-0247</div>
+              <div class="call-detail">Slow drain kitchen · Hayward</div>
+            </div>
+            <div class="call-right">
+              <div class="call-time">9:02am · 2m 08s</div>
+              <span class="call-tag tag-booked">Appointment Booked</span>
+            </div>
+          </div>
+          <div class="call-item">
+            <div class="call-avatar" style="background:var(--yellow-lt);color:var(--yellow);">?</div>
+            <div class="call-info">
+              <div class="call-name">Unknown · (415) 555-0093</div>
+              <div class="call-detail">Asked about pricing — water heater</div>
+            </div>
+            <div class="call-right">
+              <div class="call-time">8:47am · 1m 44s</div>
+              <span class="call-tag tag-info">Info Provided</span>
+            </div>
+          </div>
+          <div class="call-item">
+            <div class="call-avatar" style="background:var(--red-lt);color:var(--red);">S</div>
+            <div class="call-info">
+              <div class="call-name">Sandra K. · (510) 555-0318</div>
+              <div class="call-detail">Toilet overflow — urgent</div>
+            </div>
+            <div class="call-right">
+              <div class="call-time">8:33am · 4m 01s</div>
+              <span class="call-tag tag-booked">Appointment Booked</span>
+            </div>
+          </div>
+          <div class="call-item">
+            <div class="call-avatar" style="background:var(--purple-lt);color:var(--purple);">D</div>
+            <div class="call-info">
+              <div class="call-name">David F. · (510) 555-0411</div>
+              <div class="call-detail">Follow-up on sewer inspection quote</div>
+            </div>
+            <div class="call-right">
+              <div class="call-time">8:11am · 2m 55s</div>
+              <span class="call-tag tag-cb">Callback Scheduled</span>
+            </div>
+          </div>
+          <div class="call-item">
+            <div class="call-avatar" style="background:var(--gray-100);color:var(--gray-600);">—</div>
+            <div class="call-info">
+              <div class="call-name">Unknown · (628) 555-0077</div>
+              <div class="call-detail">No answer / hung up</div>
+            </div>
+            <div class="call-right">
+              <div class="call-time">7:58am · 0m 12s</div>
+              <span class="call-tag tag-missed">Missed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div style="display:flex;flex-direction:column;gap:16px;">
+
+        <!-- REVENUE CHART -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Revenue — Last 6 Months</div>
+              <div class="card-sub">Total billed · USD</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart-wrap">
+              <canvas id="revenueChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- TECHNICIANS -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Technicians — Today</div>
+          </div>
+          <div class="card-body" style="padding-top:8px;padding-bottom:8px;">
+            <div class="tech-item">
+              <div class="tech-avatar" style="background:#dbeafe;color:#1d4ed8;">NL</div>
+              <div class="tech-info">
+                <div class="tech-name">Napoleon L. (Owner)</div>
+                <div class="tech-status">🔵 On job · Slab Leak · San Leandro</div>
+                <div class="progress-wrap">
+                  <div class="progress-bar"><div class="progress-fill" style="width:65%;background:var(--blue);"></div></div>
+                </div>
+              </div>
+              <div class="tech-jobs">3 jobs</div>
+            </div>
+            <div class="tech-item">
+              <div class="tech-avatar" style="background:#d1fae5;color:#10b981;">MR</div>
+              <div class="tech-info">
+                <div class="tech-name">Marco R.</div>
+                <div class="tech-status">🟢 On job · Repiping · Fremont</div>
+                <div class="progress-wrap">
+                  <div class="progress-bar"><div class="progress-fill" style="width:45%;background:var(--green);"></div></div>
+                </div>
+              </div>
+              <div class="tech-jobs">2 jobs</div>
+            </div>
+            <div class="tech-item">
+              <div class="tech-avatar" style="background:#fef3c7;color:#f59e0b;">JS</div>
+              <div class="tech-info">
+                <div class="tech-name">José S.</div>
+                <div class="tech-status">🟡 En route · Drain · Hayward</div>
+                <div class="progress-wrap">
+                  <div class="progress-bar"><div class="progress-fill" style="width:20%;background:var(--yellow);"></div></div>
+                </div>
+              </div>
+              <div class="tech-jobs">2 jobs</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SERVICES BREAKDOWN + ACTIVITY -->
+    <div class="grid-2">
+
+      <!-- SERVICES PIE -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Revenue by Service — May</div>
+        </div>
+        <div class="card-body" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center;">
+          <div class="chart-wrap" style="height:180px;">
+            <canvas id="servicesChart"></canvas>
+          </div>
+          <div>
+            <div class="rev-item"><div class="rev-label"><div class="rev-dot" style="background:#1d4ed8;"></div>Water Heaters</div><div><div class="rev-val">$5,200</div><div class="rev-pct">28%</div></div></div>
+            <div class="rev-item"><div class="rev-label"><div class="rev-dot" style="background:#10b981;"></div>Sewer / Drain</div><div><div class="rev-val">$4,800</div><div class="rev-pct">26%</div></div></div>
+            <div class="rev-item"><div class="rev-label"><div class="rev-dot" style="background:#f59e0b;"></div>Repiping</div><div><div class="rev-val">$3,800</div><div class="rev-pct">21%</div></div></div>
+            <div class="rev-item"><div class="rev-label"><div class="rev-dot" style="background:#8b5cf6;"></div>Remodeling</div><div><div class="rev-val">$2,700</div><div class="rev-pct">15%</div></div></div>
+            <div class="rev-item"><div class="rev-label"><div class="rev-dot" style="background:#ef4444;"></div>Other</div><div><div class="rev-val">$1,840</div><div class="rev-pct">10%</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIVITY FEED -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Recent Activity</div>
+          <span class="card-badge cb-blue">Live</span>
+        </div>
+        <div class="card-body" style="padding-top:8px;padding-bottom:8px;">
+          <div class="activity-item">
+            <div class="act-icon" style="background:var(--green-lt);">✅</div>
+            <div><div class="act-text"><strong>Job Completed</strong> — Water Heater Install · Margot D.</div><div class="act-time">9:45am</div></div>
+          </div>
+          <div class="activity-item">
+            <div class="act-icon" style="background:var(--blue-lt);">🤖</div>
+            <div><div class="act-text"><strong>AI Agent</strong> booked appointment for Patricia L. — Drain Cleaning</div><div class="act-time">9:02am</div></div>
+          </div>
+          <div class="activity-item">
+            <div class="act-icon" style="background:var(--blue-lt);">🤖</div>
+            <div><div class="act-text"><strong>AI Agent</strong> booked appointment for Robert M. — Water Heater</div><div class="act-time">9:14am</div></div>
+          </div>
+          <div class="activity-item">
+            <div class="act-icon" style="background:var(--yellow-lt);">⭐</div>
+            <div><div class="act-text"><strong>New Google Review</strong> — 5 stars from Linda M. · Fremont</div><div class="act-time">8:30am</div></div>
+          </div>
+          <div class="activity-item">
+            <div class="act-icon" style="background:var(--purple-lt);">📋</div>
+            <div><div class="act-text"><strong>Web Form</strong> received from Tom W. — Leak Inspection · Berkeley</div><div class="act-time">8:22am</div></div>
+          </div>
+          <div class="activity-item">
+            <div class="act-icon" style="background:var(--green-lt);">💵</div>
+            <div><div class="act-text"><strong>Invoice Paid</strong> — K. Anderson · Trenchless Sewer · $4,200</div><div class="act-time">Yesterday</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!-- /content -->
+</main>
+
+<script>
+  // Live date
+  const d = new Date();
+  document.getElementById('live-date').textContent =
+    d.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric', year:'numeric'}) +
+    ' · ' + d.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'});
+
+  // Revenue chart
+  new Chart(document.getElementById('revenueChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Dec','Jan','Feb','Mar','Apr','May'],
+      datasets: [{
+        label: 'Revenue',
+        data: [12400, 10800, 13200, 14900, 16300, 18340],
+        backgroundColor: 'rgba(29,78,216,0.12)',
+        borderColor: '#1d4ed8',
+        borderWidth: 2,
+        borderRadius: 6,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+        y: {
+          grid: { color: '#f1f5f9' },
+          ticks: { font: { size: 11 }, callback: v => '$' + (v/1000).toFixed(0) + 'k' }
+        }
+      }
+    }
+  });
+
+  // Services chart
+  new Chart(document.getElementById('servicesChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Water Heaters','Sewer/Drain','Repiping','Remodeling','Other'],
+      datasets: [{
+        data: [28, 26, 21, 15, 10],
+        backgroundColor: ['#1d4ed8','#10b981','#f59e0b','#8b5cf6','#ef4444'],
+        borderWidth: 0,
+        hoverOffset: 6
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      cutout: '70%',
+      plugins: { legend: { display: false } }
+    }
+  });
+</script>
+</body>
+</html>

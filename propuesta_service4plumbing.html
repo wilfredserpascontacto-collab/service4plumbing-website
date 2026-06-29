@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Propuesta Digital — Service 4 Plumbing</title>
+  <style>
+    /* === RESET & BASE === */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Georgia', serif;
+      font-size: 11pt;
+      color: #1a1a1a;
+      background: #fff;
+      line-height: 1.65;
+    }
+
+    /* === PRINT OPTIMIZATION === */
+    @media print {
+      body { font-size: 10.5pt; }
+      .no-print { display: none !important; }
+      .page-break { page-break-before: always; }
+      section { page-break-inside: avoid; }
+      h2 { page-break-after: avoid; }
+    }
+
+    /* === LAYOUT === */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 48px;
+    }
+
+    /* === COVER PAGE === */
+    .cover {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-bottom: 2px solid #1a1a1a;
+      padding-bottom: 60px;
+      margin-bottom: 60px;
+    }
+
+    .cover-label {
+      font-family: 'Arial', sans-serif;
+      font-size: 9pt;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 32px;
+    }
+
+    .cover h1 {
+      font-size: 30pt;
+      font-weight: normal;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      border-left: 4px solid #1a1a1a;
+      padding-left: 20px;
+    }
+
+    .cover .subtitle {
+      font-family: 'Arial', sans-serif;
+      font-size: 12pt;
+      color: #444;
+      padding-left: 24px;
+      margin-bottom: 48px;
+    }
+
+    .cover-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      font-family: 'Arial', sans-serif;
+      font-size: 9.5pt;
+      border-top: 1px solid #ccc;
+      padding-top: 24px;
+      margin-top: 40px;
+    }
+
+    .cover-meta .meta-item strong {
+      display: block;
+      font-size: 8pt;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 2px;
+    }
+
+    /* === SECTION HEADERS === */
+    .section-number {
+      font-family: 'Arial', sans-serif;
+      font-size: 8.5pt;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-size: 18pt;
+      font-weight: normal;
+      border-bottom: 1.5px solid #1a1a1a;
+      padding-bottom: 8px;
+      margin-bottom: 28px;
+      line-height: 1.25;
+    }
+
+    h3 {
+      font-family: 'Arial', sans-serif;
+      font-size: 11pt;
+      font-weight: bold;
+      margin-top: 28px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    h4 {
+      font-family: 'Arial', sans-serif;
+      font-size: 10pt;
+      font-weight: bold;
+      margin-top: 20px;
+      margin-bottom: 6px;
+    }
+
+    /* === BODY CONTENT === */
+    p {
+      margin-bottom: 12px;
+    }
+
+    ul, ol {
+      padding-left: 22px;
+      margin-bottom: 12px;
+    }
+
+    li {
+      margin-bottom: 5px;
+    }
+
+    strong { font-weight: bold; }
+    em { font-style: italic; }
+
+    /* === TABLES === */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0 28px;
+      font-family: 'Arial', sans-serif;
+      font-size: 9.5pt;
+    }
+
+    thead th {
+      background: #1a1a1a;
+      color: #fff;
+      text-align: left;
+      padding: 8px 12px;
+      font-weight: normal;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 8.5pt;
+    }
+
+    tbody tr:nth-child(even) { background: #f5f5f5; }
+
+    tbody td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: top;
+    }
+
+    /* === CALLOUT / NOTE === */
+    .callout {
+      border-left: 3px solid #1a1a1a;
+      background: #f9f9f9;
+      padding: 14px 18px;
+      margin: 20px 0;
+      font-family: 'Arial', sans-serif;
+      font-size: 10pt;
+    }
+
+    .callout.warning {
+      border-left-color: #888;
+      background: #fafafa;
+    }
+
+    /* === PROBLEM/SOLUTION GRID === */
+    .ps-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid #ccc;
+      margin: 20px 0;
+      font-family: 'Arial', sans-serif;
+      font-size: 9.5pt;
+    }
+
+    .ps-header {
+      background: #1a1a1a;
+      color: #fff;
+      padding: 8px 14px;
+      font-size: 8.5pt;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .ps-cell {
+      padding: 10px 14px;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .ps-cell:nth-child(odd) { border-right: 1px solid #e8e8e8; }
+
+    /* === PHASES === */
+    .phase {
+      border: 1px solid #ccc;
+      margin-bottom: 16px;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .phase-header {
+      background: #f0f0f0;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .phase-header strong { font-size: 10pt; }
+    .phase-header span { font-size: 9pt; color: #555; }
+
+    .phase-body {
+      padding: 12px 16px;
+      font-size: 9.5pt;
+    }
+
+    .phase-body ul { margin-bottom: 0; }
+
+    /* === BUDGET TABLE === */
+    .budget-total {
+      background: #1a1a1a !important;
+      color: #fff;
+    }
+
+    .budget-total td {
+      border-bottom: none !important;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    /* === SECTION SPACING === */
+    section {
+      margin-bottom: 56px;
+    }
+
+    /* === SIGNATURE BLOCK === */
+    .signature-block {
+      margin-top: 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      font-family: 'Arial', sans-serif;
+      font-size: 9.5pt;
+    }
+
+    .sig-line {
+      border-top: 1px solid #1a1a1a;
+      padding-top: 8px;
+      margin-top: 48px;
+    }
+
+    /* === FOOTER === */
+    .doc-footer {
+      border-top: 1px solid #ccc;
+      margin-top: 60px;
+      padding-top: 16px;
+      font-family: 'Arial', sans-serif;
+      font-size: 8.5pt;
+      color: #888;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* === INDEX === */
+    .toc {
+      font-family: 'Arial', sans-serif;
+      font-size: 10pt;
+      margin: 24px 0 48px;
+    }
+
+    .toc-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px dotted #ccc;
+    }
+
+    .toc-item .toc-num { color: #888; font-size: 9pt; margin-right: 12px; }
+    .toc-item .toc-page { color: #888; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ═══════════════════════════════════════════
+       PORTADA
+  ════════════════════════════════════════════ -->
+  <div class="cover">
+    <div class="cover-label">Propuesta de Transformación Digital</div>
+    <h1>Service 4 Plumbing</h1>
+    <p class="subtitle">Nuevo sitio web &amp; Estrategia de publicidad digital<br>San Francisco Bay Area, California</p>
+
+    <div class="cover-meta">
+      <div class="meta-item">
+        <strong>Preparado por</strong>
+        David — Gestión y Marketing Digital
+      </div>
+      <div class="meta-item">
+        <strong>Preparado para</strong>
+        Napoleón · Service 4 Plumbing, Inc.
+      </div>
+      <div class="meta-item">
+        <strong>Fecha</strong>
+        Mayo 2026
+      </div>
+      <div class="meta-item">
+        <strong>Confidencial</strong>
+        Uso interno
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       ÍNDICE
+  ════════════════════════════════════════════ -->
+  <section>
+    <div class="section-number">Contenido</div>
+    <h2>Índice</h2>
+    <div class="toc">
+      <div class="toc-item"><span><span class="toc-num">01</span> Diagnóstico del sitio actual</span><span class="toc-page">→</span></div>
+      <div class="toc-item"><span><span class="toc-num">02</span> Propuesta de nuevo sitio web</span><span class="toc-page">→</span></div>
+      <div class="toc-item"><span><span class="toc-num">03</span> Estrategia de publicidad digital</span><span class="toc-page">→</span></div>
+      <div class="toc-item"><span><span class="toc-num">04</span> Plan de ejecución y fases</span><span class="toc-page">→</span></div>
+      <div class="toc-item"><span><span class="toc-num">05</span> Inversión estimada</span><span class="toc-page">→</span></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       01 — DIAGNÓSTICO
+  ════════════════════════════════════════════ -->
+  <section class="page-break">
+    <div class="section-number">Sección 01</div>
+    <h2>Diagnóstico del sitio actual</h2>
+
+    <p>El sitio web actual de Service 4 Plumbing (<em>service4plumbing.net</em>) fue construido en Wix y refleja una etapa temprana del marketing digital de la empresa. Si bien cumple una función informativa básica, presenta limitaciones importantes que afectan directamente la captación de nuevos clientes en el mercado del Bay Area.</p>
+
+    <h3>Problemas identificados</h3>
+
+    <div class="ps-grid">
+      <div class="ps-header">Problema detectado</div>
+      <div class="ps-header">Impacto en el negocio</div>
+
+      <div class="ps-cell">Errores ortográficos visibles: "RECIEVE" y "Sevice 4 Plumbing"</div>
+      <div class="ps-cell">Transmite descuido y resta credibilidad ante clientes potenciales</div>
+
+      <div class="ps-cell">Dos números de teléfono distintos (510-614-5889 y 510-800-6093)</div>
+      <div class="ps-cell">Confunde al cliente y puede resultar en llamadas perdidas</div>
+
+      <div class="ps-cell">Diseño Wix anticuado, con elementos fragmentados y sin coherencia visual</div>
+      <div class="ps-cell">Primera impresión negativa; los competidores con mejor diseño ganan el cliente</div>
+
+      <div class="ps-cell">Solo un testimonio visible en toda la página</div>
+      <div class="ps-cell">Poca evidencia social para justificar la contratación</div>
+
+      <div class="ps-cell">Enlace "Webmaster Login" visible para cualquier visitante</div>
+      <div class="ps-cell">Aspecto de sitio inacabado o no profesional</div>
+
+      <div class="ps-cell">Sin integración con Google Business Profile</div>
+      <div class="ps-cell">No aparece con fuerza en búsquedas locales de Google Maps</div>
+
+      <div class="ps-cell">Galería con pocas imágenes, sin fotos de trabajos reales</div>
+      <div class="ps-cell">No genera confianza visual en los servicios ofrecidos</div>
+
+      <div class="ps-cell">Sin botón de WhatsApp ni chat en línea</div>
+      <div class="ps-cell">Se pierden clientes que prefieren contacto inmediato por mensaje</div>
+    </div>
+
+    <div class="callout">
+      <strong>Conclusión del diagnóstico:</strong> El sitio actual no está convirtiendo visitantes en clientes de forma eficiente. Con 25 años de experiencia y una licencia activa (Lic. #1004766), Service 4 Plumbing merece una presencia digital que esté a la altura de su trayectoria.
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       02 — PROPUESTA DE NUEVO SITIO WEB
+  ════════════════════════════════════════════ -->
+  <section class="page-break">
+    <div class="section-number">Sección 02</div>
+    <h2>Propuesta de nuevo sitio web</h2>
+
+    <p>Se propone el diseño y desarrollo de un sitio web moderno, construido en WordPress, optimizado para búsquedas locales y pensado para convertir visitas en llamadas y reservas. La plataforma WordPress permite flexibilidad, bajo costo de mantenimiento y excelentes resultados en SEO.</p>
+
+    <h3>Estructura del sitio propuesto</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Página</th>
+          <th>Propósito principal</th>
+          <th>Elementos clave</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Inicio (Home)</strong></td>
+          <td>Primera impresión y conversión rápida</td>
+          <td>Titular con área de servicio, número de teléfono grande, CTA "Call Now" y "Book Online", reseñas de Google en vivo, servicios resumidos</td>
+        </tr>
+        <tr>
+          <td><strong>Servicios</strong></td>
+          <td>Página dedicada por tipo de servicio</td>
+          <td>Descripción detallada, fotos del trabajo, preguntas frecuentes por servicio, CTA de contacto</td>
+        </tr>
+        <tr>
+          <td><strong>Proyectos / Galería</strong></td>
+          <td>Demostrar calidad del trabajo</td>
+          <td>Fotos antes/después, categorías por tipo de trabajo, subtítulos descriptivos</td>
+        </tr>
+        <tr>
+          <td><strong>Testimonios</strong></td>
+          <td>Generar confianza social</td>
+          <td>Reseñas de Google integradas, testimonios en video (si se dispone), estrellas de calificación</td>
+        </tr>
+        <tr>
+          <td><strong>Sobre Nosotros</strong></td>
+          <td>Humanizar la empresa</td>
+          <td>Historia de Napoleón y el equipo, 25 años de experiencia, licencia, foto del equipo</td>
+        </tr>
+        <tr>
+          <td><strong>Áreas de Servicio</strong></td>
+          <td>Capturar búsquedas por ciudad</td>
+          <td>Páginas individuales por ciudad del Bay Area (Oakland, San Leandro, Fremont, etc.) con texto SEO localizado</td>
+        </tr>
+        <tr>
+          <td><strong>Contacto / Reserva</strong></td>
+          <td>Facilitar el contacto directo</td>
+          <td>Formulario simple, mapa de ubicación, horario, botón de WhatsApp, enlace a Google Business</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Funcionalidades técnicas propuestas</h3>
+    <ul>
+      <li><strong>Diseño responsive:</strong> Completamente optimizado para móviles (más del 65% de búsquedas de plomeros se hacen desde el teléfono).</li>
+      <li><strong>Velocidad de carga:</strong> Optimización de imágenes y código para cargar en menos de 2 segundos.</li>
+      <li><strong>Botón de llamada fijo:</strong> Visible en todo momento al navegar desde el celular.</li>
+      <li><strong>Integración con Google Reviews:</strong> Las reseñas de Google Business aparecen automáticamente en el sitio.</li>
+      <li><strong>Formulario de reserva en línea:</strong> Permite al cliente agendar sin necesidad de llamar.</li>
+      <li><strong>SEO local integrado:</strong> Etiquetas de schema markup para aparecer en Google con estrellitas y dirección.</li>
+      <li><strong>Chat / WhatsApp:</strong> Botón flotante de contacto inmediato.</li>
+      <li><strong>Certificado SSL:</strong> Sitio seguro (https://) — requisito básico de confianza y SEO.</li>
+    </ul>
+
+    <h3>Comparativa: sitio actual vs. sitio propuesto</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Característica</th>
+          <th>Sitio actual (Wix)</th>
+          <th>Sitio propuesto (WordPress)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Diseño</td>
+          <td>Anticuado, fragmentado</td>
+          <td>Moderno, limpio y profesional</td>
+        </tr>
+        <tr>
+          <td>SEO local</td>
+          <td>Básico</td>
+          <td>Avanzado con schema markup</td>
+        </tr>
+        <tr>
+          <td>Velocidad</td>
+          <td>Media</td>
+          <td>Alta (optimizado)</td>
+        </tr>
+        <tr>
+          <td>Páginas de servicio</td>
+          <td>Una sola lista</td>
+          <td>Página dedicada por servicio</td>
+        </tr>
+        <tr>
+          <td>Áreas de servicio</td>
+          <td>Mencionadas vagamente</td>
+          <td>Páginas individuales por ciudad</td>
+        </tr>
+        <tr>
+          <td>Testimonios</td>
+          <td>1 testimonio</td>
+          <td>Google Reviews + testimonios en video</td>
+        </tr>
+        <tr>
+          <td>Contacto rápido</td>
+          <td>Solo teléfono</td>
+          <td>Teléfono + formulario + WhatsApp</td>
+        </tr>
+        <tr>
+          <td>Control y actualizaciones</td>
+          <td>Dependiente de Wix</td>
+          <td>Control total, sin ataduras</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       03 — ESTRATEGIA DE PUBLICIDAD DIGITAL
+  ════════════════════════════════════════════ -->
+  <section class="page-break">
+    <div class="section-number">Sección 03</div>
+    <h2>Estrategia de publicidad digital</h2>
+
+    <p>Una empresa de plomería en el Bay Area compite en uno de los mercados de servicios locales más activos de Estados Unidos. La estrategia propuesta combina cuatro pilares complementarios, priorizando los canales con mayor retorno para servicios de emergencia y reparación.</p>
+
+    <h3>Pilar 1 — Google Business Profile (Prioridad inmediata)</h3>
+
+    <p>El perfil de Google Business es la herramienta más poderosa y de menor costo para una empresa de plomería local. Cuando alguien busca "plumber near me" o "plumber San Leandro", Google muestra primero el mapa con tres negocios locales — aparecer ahí es el objetivo principal.</p>
+
+    <ul>
+      <li>Optimización completa del perfil: fotos profesionales, descripción, horarios, categorías correctas.</li>
+      <li>Estrategia activa de captación de reseñas: mensaje post-servicio para solicitar reseña en Google.</li>
+      <li>Publicación semanal de actualizaciones (fotos de trabajos, ofertas, novedades).</li>
+      <li>Respuesta a todas las reseñas, positivas y negativas.</li>
+      <li>Seguimiento mensual de posición en el "Local Pack" de Google Maps.</li>
+    </ul>
+
+    <div class="callout">
+      <strong>Dato clave:</strong> El 46% de todas las búsquedas en Google tienen intención local. Para servicios de plomería de emergencia, el cliente llama al primero que aparece. Un perfil de Google Business bien optimizado puede generar llamadas sin ningún gasto en anuncios pagados.
+    </div>
+
+    <h3>Pilar 2 — Google Local Services Ads (LSA)</h3>
+
+    <p>Los Google Local Services Ads son anuncios diseñados específicamente para empresas de servicios. Aparecen <em>sobre</em> los resultados de búsqueda regulares con una insignia de "Google Guaranteed" que genera confianza inmediata. Se paga por lead (llamada o mensaje), no por clic.</p>
+
+    <ul>
+      <li>Configuración de cuenta LSA con verificación de licencia y seguro.</li>
+      <li>Selección de servicios y área geográfica objetivo.</li>
+      <li>Gestión de presupuesto diario para maximizar leads en horario de mayor demanda.</li>
+      <li>Revisión semanal de calidad de leads y ajuste de pujas.</li>
+    </ul>
+
+    <h3>Pilar 3 — SEO Local (Posicionamiento orgánico)</h3>
+
+    <p>El SEO local garantiza que Service 4 Plumbing aparezca en los resultados de búsqueda de forma orgánica, sin pagar por cada clic. Es una inversión de mediano plazo con retorno sostenido.</p>
+
+    <ul>
+      <li>Creación de páginas de servicio por ciudad: Oakland, Fremont, Hayward, San Leandro, Berkeley, etc.</li>
+      <li>Optimización de contenido con palabras clave locales de alta intención (ej. "emergency plumber Oakland CA", "water heater installation San Leandro").</li>
+      <li>Construcción de citas en directorios locales: Yelp, Angi, HomeAdvisor, BBB, Houzz.</li>
+      <li>Estrategia de blog: artículos informativos que posicionen el sitio como autoridad (ej. "¿Cuándo reemplazar tu calentador de agua?").</li>
+    </ul>
+
+    <h3>Pilar 4 — Redes Sociales y Publicidad en Meta</h3>
+
+    <p>Facebook e Instagram permiten llegar a propietarios de viviendas en el Bay Area con publicidad segmentada geográficamente. Se prioriza contenido visual que genere confianza.</p>
+
+    <ul>
+      <li>Publicación constante de fotos y videos de trabajos: antes/después, instalaciones, reparaciones.</li>
+      <li>Campañas de anuncios segmentadas por código postal, edad del hogar y tipo de vivienda.</li>
+      <li>Promociones estacionales: mantenimiento de invierno, oferta de inspección gratuita, descuentos para clientes recurrentes.</li>
+      <li>Seguimiento de métricas mensual: alcance, clic al teléfono, mensajes recibidos.</li>
+    </ul>
+
+    <h3>Resumen de canales y objetivo de cada uno</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Canal</th>
+          <th>Objetivo</th>
+          <th>Plazo para resultados</th>
+          <th>Tipo de inversión</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Google Business Profile</td>
+          <td>Aparecer en Google Maps y búsquedas locales</td>
+          <td>4–8 semanas</td>
+          <td>Tiempo de gestión</td>
+        </tr>
+        <tr>
+          <td>Google Local Services Ads</td>
+          <td>Leads inmediatos — llamadas calificadas</td>
+          <td>Inmediato</td>
+          <td>Pago por lead</td>
+        </tr>
+        <tr>
+          <td>SEO local</td>
+          <td>Tráfico orgánico sostenido sin pagar por clic</td>
+          <td>3–6 meses</td>
+          <td>Tiempo de gestión</td>
+        </tr>
+        <tr>
+          <td>Facebook / Instagram Ads</td>
+          <td>Reconocimiento de marca y nuevos clientes</td>
+          <td>2–4 semanas</td>
+          <td>Presupuesto publicitario</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       04 — PLAN DE EJECUCIÓN
+  ════════════════════════════════════════════ -->
+  <section class="page-break">
+    <div class="section-number">Sección 04</div>
+    <h2>Plan de ejecución y fases</h2>
+
+    <p>Se propone un plan de trabajo dividido en tres fases, con objetivos claros y entregables medibles en cada etapa.</p>
+
+    <div class="phase">
+      <div class="phase-header">
+        <strong>Fase 1 — Fundamentos digitales</strong>
+        <span>Semanas 1–4</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>Auditoría y corrección del Google Business Profile existente.</li>
+          <li>Unificación del número de teléfono y corrección de información en todos los directorios.</li>
+          <li>Lanzamiento de campaña de Google Local Services Ads.</li>
+          <li>Inicio de diseño del nuevo sitio web (wireframes y estructura).</li>
+          <li>Estrategia de captación de reseñas de Google para clientes actuales.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-header">
+        <strong>Fase 2 — Nuevo sitio web</strong>
+        <span>Semanas 3–8</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>Desarrollo y diseño del sitio WordPress con todas las páginas propuestas.</li>
+          <li>Sesión fotográfica de trabajos, equipo y oficina (o uso de banco de imágenes profesional).</li>
+          <li>Redacción de contenido SEO para páginas de servicio y ciudades.</li>
+          <li>Configuración técnica: SSL, velocidad, analytics, Google Search Console.</li>
+          <li>Migración del dominio service4plumbing.net al nuevo sitio.</li>
+          <li>Revisión y aprobación del cliente antes del lanzamiento.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-header">
+        <strong>Fase 3 — Crecimiento y optimización continua</strong>
+        <span>Mes 3 en adelante</span>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>Publicación semanal en redes sociales con contenido de trabajos realizados.</li>
+          <li>Campañas de Meta Ads segmentadas geográficamente.</li>
+          <li>Publicación mensual de artículos de blog para SEO.</li>
+          <li>Reporte mensual de resultados: visitas al sitio, llamadas generadas, posición en Google Maps, leads por canal.</li>
+          <li>Ajuste continuo de estrategia basado en métricas reales.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       05 — INVERSIÓN ESTIMADA
+  ════════════════════════════════════════════ -->
+  <section class="page-break">
+    <div class="section-number">Sección 05</div>
+    <h2>Inversión estimada</h2>
+
+    <p>A continuación se detalla la estimación de inversión para el desarrollo del proyecto y la gestión mensual continua. Los valores de referencia del mercado se incluyen para contexto; los honorarios de gestión están sujetos a acuerdo final.</p>
+
+    <h3>Desarrollo del sitio web (pago único)</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Entregable</th>
+          <th>Detalle</th>
+          <th>Referencia de mercado (USD)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Diseño y desarrollo WordPress</td>
+          <td>Sitio completo con todas las páginas propuestas</td>
+          <td>$1,500 – $3,500</td>
+        </tr>
+        <tr>
+          <td>Redacción de contenido SEO</td>
+          <td>Home, servicios, ciudades, about</td>
+          <td>$400 – $800</td>
+        </tr>
+        <tr>
+          <td>Configuración técnica y SEO inicial</td>
+          <td>Analytics, Search Console, schema markup</td>
+          <td>$200 – $400</td>
+        </tr>
+        <tr>
+          <td>Hosting + dominio (anual)</td>
+          <td>Servidor WordPress gestionado</td>
+          <td>$150 – $300/año</td>
+        </tr>
+        <tr class="budget-total">
+          <td><strong>Total estimado (desarrollo)</strong></td>
+          <td></td>
+          <td><strong>$2,250 – $5,000</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Gestión mensual continua</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Servicio</th>
+          <th>Incluye</th>
+          <th>Referencia de mercado (USD/mes)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Gestión Google Business Profile</td>
+          <td>Publicaciones, respuesta a reseñas, optimización</td>
+          <td>$150 – $300</td>
+        </tr>
+        <tr>
+          <td>Gestión Google Local Services Ads</td>
+          <td>Configuración, monitoreo, ajuste de pujas</td>
+          <td>$200 – $400 + presupuesto en anuncios</td>
+        </tr>
+        <tr>
+          <td>SEO local continuo</td>
+          <td>Contenido, citas, seguimiento de posiciones</td>
+          <td>$300 – $600</td>
+        </tr>
+        <tr>
+          <td>Redes sociales + Meta Ads</td>
+          <td>Publicaciones, campañas, reporte mensual</td>
+          <td>$300 – $500 + presupuesto en anuncios</td>
+        </tr>
+        <tr class="budget-total">
+          <td><strong>Total gestión mensual</strong></td>
+          <td></td>
+          <td><strong>$950 – $1,800 / mes</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>Presupuesto publicitario recomendado (aparte de honorarios)</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Canal</th>
+          <th>Presupuesto mensual sugerido (USD)</th>
+          <th>Rendimiento esperado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Google Local Services Ads</td>
+          <td>$300 – $600</td>
+          <td>15–40 leads calificados por mes</td>
+        </tr>
+        <tr>
+          <td>Facebook / Instagram Ads</td>
+          <td>$200 – $400</td>
+          <td>Alcance local + mensajes directos</td>
+        </tr>
+        <tr class="budget-total">
+          <td><strong>Total presupuesto en anuncios</strong></td>
+          <td><strong>$500 – $1,000 / mes</strong></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout warning">
+      <strong>Nota:</strong> Los rangos de referencia corresponden a tarifas estándar de agencias y freelancers especializados en el mercado norteamericano para empresas de servicios locales. Los honorarios de gestión son negociables y se ajustarán al alcance acordado con Service 4 Plumbing.
+    </div>
+
+    <!-- Firma -->
+    <div class="signature-block">
+      <div>
+        <p>Preparado por:</p>
+        <div class="sig-line">David<br><span style="font-family: Arial; font-size: 9pt; color: #555;">Gestión y Marketing Digital</span></div>
+      </div>
+      <div>
+        <p>Aprobado por:</p>
+        <div class="sig-line">Napoleón<br><span style="font-family: Arial; font-size: 9pt; color: #555;">Service 4 Plumbing, Inc.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="doc-footer">
+    <span>Service 4 Plumbing — Propuesta de Transformación Digital · Mayo 2026</span>
+    <span>Confidencial</span>
+  </div>
+
+</div>
+</body>
+</html>

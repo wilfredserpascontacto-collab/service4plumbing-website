@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plumbers San Francisco Bay Area | Service 4 Plumbing | CA Lic. #1004766</title>
+  <meta name="description" content="Service 4 Plumbing — Family-owned plumbers serving the SF Bay Area for 25+ years. Water heaters, sewer repair, repiping, drain cleaning & more. Call 510-614-5889." />
+  <meta name="keywords" content="plumber San Francisco Bay Area, plumber San Leandro, emergency plumber Oakland, water heater installation, trenchless sewer repair, drain cleaning Bay Area" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===================================
+       CSS VARIABLES
+    =================================== */
+    :root {
+      --blue:       #1d4ed8;
+      --blue-dark:  #1e3a5f;
+      --blue-light: #dbeafe;
+      --blue-mid:   #2563eb;
+      --yellow:     #f59e0b;
+      --yellow-dk:  #d97706;
+      --white:      #ffffff;
+      --gray-50:    #f8fafc;
+      --gray-100:   #f1f5f9;
+      --gray-200:   #e2e8f0;
+      --gray-400:   #94a3b8;
+      --gray-600:   #475569;
+      --gray-800:   #1e293b;
+      --font-body:  'Inter', sans-serif;
+      --font-head:  'Poppins', sans-serif;
+      --radius:     12px;
+      --shadow:     0 4px 24px rgba(30,58,95,0.10);
+      --shadow-lg:  0 8px 40px rgba(30,58,95,0.16);
+    }
+
+    /* ===================================
+       RESET & BASE
+    =================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--gray-800);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    ul { list-style: none; }
+
+    /* ===================================
+       UTILITIES
+    =================================== */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 80px 0; }
+    .section-alt { background: var(--gray-50); }
+
+    .badge {
+      display: inline-block;
+      background: var(--blue-light);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 99px;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(26px, 4vw, 36px);
+      font-weight: 800;
+      color: var(--blue-dark);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      font-size: 17px;
+      color: var(--gray-600);
+      max-width: 560px;
+      margin-bottom: 48px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      font-weight: 700;
+      font-size: 15px;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--yellow);
+      color: var(--gray-800);
+    }
+    .btn-primary:hover { background: var(--yellow-dk); transform: translateY(-1px); box-shadow: var(--shadow); }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid rgba(255,255,255,0.5);
+    }
+    .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.1); }
+
+    /* ===================================
+       TOP BAR
+    =================================== */
+    .topbar {
+      background: var(--blue-dark);
+      color: rgba(255,255,255,0.85);
+      font-size: 13px;
+      padding: 8px 0;
+    }
+    .topbar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .topbar a { color: var(--yellow); font-weight: 600; }
+    .topbar-right { display: flex; gap: 24px; align-items: center; }
+
+    /* ===================================
+       NAVBAR
+    =================================== */
+    .navbar {
+      background: var(--white);
+      box-shadow: 0 2px 12px rgba(30,58,95,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .navbar .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+    .logo {
+      font-family: var(--font-head);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--blue-dark);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo span {
+      background: var(--blue);
+      color: white;
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gray-600);
+    }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-cta {
+      background: var(--blue);
+      color: white !important;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 700 !important;
+      font-size: 14px;
+    }
+    .nav-cta:hover { background: var(--blue-mid); }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--blue-dark); border-radius: 2px; }
+
+    /* ===================================
+       HERO
+    =================================== */
+    .hero {
+      background:
+        linear-gradient(to right, rgba(20,42,80,0.82) 0%, rgba(29,78,216,0.55) 42%, rgba(29,78,216,0.15) 65%, rgba(0,0,0,0) 100%),
+        url('images/Plumbing2.png') center center / cover no-repeat;
+      color: white;
+      padding: 90px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before { display: none; }
+    .hero::after  { display: none; }
+    .hero .container {
+      position: relative;
+      z-index: 1;
+    }
+    .hero-content {
+      max-width: 520px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 99px;
+      margin-bottom: 24px;
+    }
+    .hero-badge::before { content: '✓'; background: var(--yellow); color: var(--gray-800); width: 18px; height: 18px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; }
+    .hero h1 {
+      font-family: var(--font-head);
+      font-size: clamp(30px, 5vw, 48px);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--yellow);
+    }
+    .hero p {
+      font-size: 17px;
+      color: rgba(255,255,255,0.82);
+      margin-bottom: 36px;
+      line-height: 1.7;
+    }
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .form-note { font-size: 12px; color: var(--gray-400); text-align: center; margin-top: 4px; }
+
+    /* Trust bar */
+    .trust-bar {
+      background: var(--blue-dark);
+      padding: 20px 0;
+    }
+    .trust-bar .container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+    }
+    .trust-icon {
+      font-size: 22px;
+    }
+    .trust-label { font-size: 13px; font-weight: 600; }
+    .trust-sub { font-size: 11px; color: rgba(255,255,255,0.6); }
+
+    /* ===================================
+       SERVICES
+    =================================== */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .service-card {
+      background: white;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      transition: all 0.25s;
+      cursor: default;
+    }
+    .service-card:hover {
+      border-color: var(--blue);
+      box-shadow: var(--shadow);
+      transform: translateY(-3px);
+    }
+    .service-icon {
+      font-size: 32px;
+      margin-bottom: 14px;
+    }
+    .service-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--blue-dark);
+      margin-bottom: 8px;
+    }
+    .service-card p {
+      font-size: 13.5px;
+      color: var(--gray-600);
+      line-height: 1.55;
+    }
+
+    /* ===================================
+       WHY US
+    =================================== */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    .why-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .why-num {
+      background: var(--blue);
+      color: white;
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 16px;
+      min-width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .why-item h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--blue-dark);
+      margin-bottom: 4px;
+    }
+    .why-item p { font-size: 13.5px; color: var(--gray-600); }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 48px;
+    }
+    .stat-box {
+      text-align: center;
+      background: var(--blue);
+      color: white;
+      border-radius: var(--radius);
+      padding: 24px 16px;
+    }
+    .stat-num {
+      font-family: var(--font-head);
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-label { font-size: 12px; opacity: 0.8; font-weight: 500; }
+
+    /* ===================================
+       TESTIMONIALS
+    =================================== */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .testimonial-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      box-shadow: var(--shadow);
+      border-top: 3px solid var(--blue);
+    }
+    .stars { color: var(--yellow); font-size: 15px; letter-spacing: 2px; margin-bottom: 14px; }
+    .testimonial-card p {
+      font-size: 14px;
+      color: var(--gray-600);
+      line-height: 1.65;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+    .reviewer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .reviewer-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--blue-light);
+      color: var(--blue);
+      font-weight: 700;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .reviewer-name { font-weight: 700; font-size: 14px; color: var(--blue-dark); }
+    .reviewer-loc { font-size: 12px; color: var(--gray-400); }
+
+    /* ===================================
+       ABOUT
+    =================================== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .about-img {
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+      border-radius: 20px;
+      min-height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-img::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 50%;
+      background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
+    }
+    .about-license {
+      position: absolute;
+      bottom: 20px; left: 20px;
+      background: var(--yellow);
+      color: var(--gray-800);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 8px;
+      z-index: 1;
+    }
+    .about-content p { font-size: 15px; color: var(--gray-600); margin-bottom: 16px; line-height: 1.7; }
+    .about-highlights {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 28px;
+    }
+    .highlight-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gray-800);
+    }
+    .highlight-item::before {
+      content: '✓';
+      background: var(--blue);
+      color: white;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+
+    /* ===================================
+       SERVICE AREAS
+    =================================== */
+    .areas-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .area-chip {
+      background: white;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 8px;
+      padding: 12px 16px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--blue-dark);
+      transition: all 0.2s;
+    }
+    .area-chip:hover { border-color: var(--blue); background: var(--blue-light); }
+
+    /* ===================================
+       CONTACT
+    =================================== */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .contact-info h3 {
+      font-family: var(--font-head);
+      font-size: 22px;
+      color: var(--blue-dark);
+      margin-bottom: 24px;
+    }
+    .contact-item {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+      align-items: flex-start;
+    }
+    .contact-icon {
+      width: 44px; height: 44px;
+      background: var(--blue-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .contact-label { font-size: 12px; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+    .contact-value { font-size: 16px; font-weight: 600; color: var(--blue-dark); }
+    .contact-value a { color: var(--blue); }
+
+    .contact-form {
+      background: white;
+      border-radius: 16px;
+      padding: 36px;
+      box-shadow: var(--shadow);
+    }
+    .contact-form h3 {
+      font-family: var(--font-head);
+      font-size: 20px;
+      color: var(--blue-dark);
+      margin-bottom: 24px;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .form-group label { font-size: 13px; font-weight: 600; color: var(--gray-600); }
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 12px 16px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      transition: border-color 0.2s;
+      background: var(--gray-50);
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--blue);
+      background: white;
+    }
+    .form-group textarea { height: 100px; resize: none; }
+    .contact-form .btn { width: 100%; justify-content: center; font-size: 16px; padding: 16px; }
+
+    /* ===================================
+       FOOTER
+    =================================== */
+    footer {
+      background: var(--blue-dark);
+      color: rgba(255,255,255,0.75);
+      padding: 56px 0 32px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+    .footer-brand .logo { color: white; margin-bottom: 16px; }
+    .footer-brand p { font-size: 13.5px; line-height: 1.7; }
+    .footer-col h4 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: white;
+      margin-bottom: 16px;
+    }
+    .footer-col ul li { margin-bottom: 8px; font-size: 13.5px; }
+    .footer-col ul li a:hover { color: var(--yellow); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12.5px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-cards { display: flex; gap: 8px; align-items: center; }
+    .card-badge {
+      background: rgba(255,255,255,0.1);
+      border-radius: 5px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: white;
+    }
+
+    /* ===================================
+       FLOATING BUTTONS
+    =================================== */
+    .float-btns {
+      position: fixed;
+      bottom: 28px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 999;
+    }
+    .float-btn {
+      width: 54px; height: 54px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+    .float-btn:hover { transform: scale(1.1); }
+    .float-call { background: var(--blue); color: white; }
+    .float-wa { background: #25D366; color: white; }
+
+    /* ===================================
+       DISCOUNT BANNER
+    =================================== */
+    .discount-banner {
+      background: var(--yellow);
+      color: var(--gray-800);
+      text-align: center;
+      padding: 14px 24px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .discount-banner strong { font-size: 16px; }
+
+    /* ===================================
+       RESPONSIVE
+    =================================== */
+    @media (max-width: 900px) {
+      .hero .container { grid-template-columns: 1fr; }
+      .hero-card { max-width: 520px; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-img { min-height: 240px; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .why-grid { grid-template-columns: 1fr; }
+      .areas-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .section { padding: 56px 0; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .topbar .topbar-right { display: none; }
+      .services-grid { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .areas-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .trust-bar .container { flex-direction: column; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- DISCOUNT BANNER -->
+  <div class="discount-banner">
+    📞 <strong>Call now and receive 15% OFF</strong> your first service! &nbsp;·&nbsp; <a href="tel:5106145889" style="color:var(--gray-800); text-decoration:underline;">510-614-5889</a>
+  </div>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="container">
+      <span>📍 Serving the San Francisco Bay Area &nbsp;·&nbsp; CA Lic. <strong style="color:white">#1004766</strong></span>
+      <div class="topbar-right">
+        <span>Mon–Sat: 7am – 7pm</span>
+        <a href="tel:5106145889">📞 510-614-5889</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="logo">
+        <span>S4</span>
+        Service 4 Plumbing
+      </div>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about-us">About Us</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#areas">Service Areas</a></li>
+        <li><a href="#contact" class="nav-cta">📞 Call Now</a></li>
+      </ul>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">Family-owned · Bay Area's Trusted Plumbers</div>
+        <h1>Your Bay Area<br>Plumber — <em>Done Right,<br>First Time.</em></h1>
+        <p>Over 25 years serving the San Francisco Bay Area. Water heaters, sewer repair, repiping, drain cleaning and more. Licensed, insured and ready to help.</p>
+        <div class="hero-btns">
+          <a href="tel:5106145889" class="btn btn-primary">📞 Call 510-614-5889</a>
+          <a href="#contact" class="btn btn-outline">Book Online →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST BAR -->
+  <div class="trust-bar">
+    <div class="container">
+      <div class="trust-item">
+        <span class="trust-icon">🏆</span>
+        <div>
+          <div class="trust-label">25+ Years Experience</div>
+          <div class="trust-sub">Established plumbing experts</div>
+        </div>
+      </div>
+      <div class="trust-item">
+        <span class="trust-icon">🔐</span>
+        <div>
+          <div class="trust-label">Licensed & Insured</div>
+          <div class="trust-sub">CA Lic. #1004766</div>
+        </div>
+      </div>
+      <div class="trust-item">
+        <span class="trust-icon">⚡</span>
+        <div>
+          <div class="trust-label">Same-Day Service</div>
+          <div class="trust-sub">Fast response, Bay Area wide</div>
+        </div>
+      </div>
+      <div class="trust-item">
+        <span class="trust-icon">💯</span>
+        <div>
+          <div class="trust-label">100% Satisfaction</div>
+          <div class="trust-sub">Done right, first time</div>
+        </div>
+      </div>
+      <div class="trust-item">
+        <span class="trust-icon">🏠</span>
+        <div>
+          <div class="trust-label">Family Owned</div>
+          <div class="trust-sub">Local company, local values</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="badge">Our Services</div>
+      <h2 class="section-title">Complete Plumbing Solutions<br>for Home & Business</h2>
+      <p class="section-sub">From emergency repairs to full remodels — Service 4 Plumbing handles it all with speed and precision.</p>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🔥</div>
+          <h3>Water Heater Services</h3>
+          <p>Installation, repair and replacement of tank and tankless water heaters. Same-day service available.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🚿</div>
+          <h3>Drain Cleaning & Hydro Jetting</h3>
+          <p>High-pressure hydro jetting and drain cleaning to clear any blockage — kitchen, bathroom or main line.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🔧</div>
+          <h3>Repiping — Copper Type "L"</h3>
+          <p>Full home repiping with copper type "L" in one day. Say goodbye to old galvanized pipes for good.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">📷</div>
+          <h3>Sewer Camera Inspection</h3>
+          <p>Video camera inspection to diagnose sewer line problems accurately before any digging begins.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">⛏️</div>
+          <h3>Trenchless Sewer Repair</h3>
+          <p>Sewer lateral replacements with minimal digging — no mess, no landscape damage, lasting results.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">💧</div>
+          <h3>Leak Detection & Repair</h3>
+          <p>Advanced leak detection including slab leaks. We find the source fast and fix it right the first time.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🏠</div>
+          <h3>Water Line Replacement</h3>
+          <p>Full water line replacements from meter to house. Clean, reliable, up to code.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🔩</div>
+          <h3>Gas Line & Backflow</h3>
+          <p>Gas line repairs, reroutes and backflow prevention device installation and repair.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🛁</div>
+          <h3>Kitchen & Bath Remodeling</h3>
+          <p>Complete plumbing for kitchen and bathroom remodels. Residential and commercial projects.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section class="section section-alt" id="about">
+    <div class="container">
+      <div class="badge">Why Choose Us</div>
+      <h2 class="section-title">25 Years of Getting It<br>Right the First Time</h2>
+
+      <div class="why-grid">
+        <div class="why-item">
+          <div class="why-num">01</div>
+          <div>
+            <h4>Transparent Pricing</h4>
+            <p>No surprise fees. We give you a clear estimate before any work begins. What we quote is what you pay.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-num">02</div>
+          <div>
+            <h4>Fast Response Time</h4>
+            <p>We know plumbing problems can't wait. Same-day and emergency service available across the Bay Area.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-num">03</div>
+          <div>
+            <h4>Licensed & Fully Insured</h4>
+            <p>CA Contractor's License #1004766. Every job is backed by full liability insurance for your peace of mind.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-num">04</div>
+          <div>
+            <h4>Residential & Commercial</h4>
+            <p>From single-family homes to commercial properties — we have the experience and equipment to handle it all.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="stat-num">25+</div>
+          <div class="stat-label">Years in Business</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">5K+</div>
+          <div class="stat-label">Jobs Completed</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Satisfaction Goal</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">1-Day</div>
+          <div class="stat-label">Repiping Service</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section" id="about-us">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-img">
+          🔧
+          <div class="about-license">CA Lic. #1004766</div>
+        </div>
+        <div class="about-content">
+          <div class="badge">About Us</div>
+          <h2 class="section-title">A Family Business Built on Trust</h2>
+          <p>Service 4 Plumbing is a family-owned company that has been serving the San Francisco Bay Area for over 25 years. Formerly known as Service One Plumbing, Inc., we continue to be run and operated by the same dedicated owner and team.</p>
+          <p>Our goal has never changed: deliver outstanding plumbing service where the job gets done right the first time. We treat every home and business like it were our own.</p>
+          <p>Based in San Leandro, we serve clients across Oakland, Fremont, Hayward, Berkeley and the entire Bay Area for both residential and commercial needs.</p>
+          <div class="about-highlights">
+            <div class="highlight-item">Family-owned and operated since Day 1</div>
+            <div class="highlight-item">Same owner — continuity you can count on</div>
+            <div class="highlight-item">Residential &amp; commercial expertise</div>
+            <div class="highlight-item">Free estimates — no obligation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section section-alt" id="testimonials">
+    <div class="container">
+      <div class="badge">Customer Reviews</div>
+      <h2 class="section-title">What Our Customers Say</h2>
+      <p class="section-sub">Real stories from Bay Area homeowners and businesses who trusted us with their plumbing.</p>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"Napoleon and his crew came in and repaired 50 years of bad plumbing and shoddy work. Within 2½ days they replaced all damaged pipes and that awful sewer odor was gone for good! Now my 70-year-old home functions like a youngster!"</p>
+          <div class="reviewer">
+            <div class="reviewer-avatar">M</div>
+            <div>
+              <div class="reviewer-name">Margot</div>
+              <div class="reviewer-loc">San Leandro, CA</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"Best plumber I've ever hired. They showed up on time, explained exactly what was wrong with my water heater and had it replaced the same day. Honest pricing, no surprises. I'll never call anyone else."</p>
+          <div class="reviewer">
+            <div class="reviewer-avatar">R</div>
+            <div>
+              <div class="reviewer-name">Robert T.</div>
+              <div class="reviewer-loc">Oakland, CA</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"Had a slab leak that three other companies couldn't find. Service 4 Plumbing diagnosed it in under an hour and fixed it the next morning. Incredible knowledge, professional team, fair price. Highly recommend."</p>
+          <div class="reviewer">
+            <div class="reviewer-avatar">L</div>
+            <div>
+              <div class="reviewer-name">Linda M.</div>
+              <div class="reviewer-loc">Fremont, CA</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICE AREAS -->
+  <section class="section" id="areas">
+    <div class="container">
+      <div class="badge">Where We Work</div>
+      <h2 class="section-title">Proudly Serving the<br>San Francisco Bay Area</h2>
+      <p class="section-sub">From San Leandro to San Francisco — wherever you are in the Bay Area, we're on our way.</p>
+      <div class="areas-grid">
+        <div class="area-chip">📍 San Leandro</div>
+        <div class="area-chip">📍 Oakland</div>
+        <div class="area-chip">📍 Fremont</div>
+        <div class="area-chip">📍 Hayward</div>
+        <div class="area-chip">📍 Berkeley</div>
+        <div class="area-chip">📍 San Francisco</div>
+        <div class="area-chip">📍 Alameda</div>
+        <div class="area-chip">📍 Castro Valley</div>
+        <div class="area-chip">📍 Union City</div>
+        <div class="area-chip">📍 Newark</div>
+        <div class="area-chip">📍 Pleasanton</div>
+        <div class="area-chip">📍 San Ramon</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section section-alt" id="contact">
+    <div class="container">
+      <div class="badge">Get in Touch</div>
+      <h2 class="section-title">Ready to Fix It? Let's Talk.</h2>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3>Contact Information</h3>
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div>
+              <div class="contact-label">Phone</div>
+              <div class="contact-value"><a href="tel:5106145889">510-614-5889</a></div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+              <div class="contact-label">Office</div>
+              <div class="contact-value">2258 Marina Blvd.<br>San Leandro, CA 94577</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">🕐</div>
+            <div>
+              <div class="contact-label">Hours</div>
+              <div class="contact-value">Mon–Sat: 7am – 7pm</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">🪪</div>
+            <div>
+              <div class="contact-label">License</div>
+              <div class="contact-value">CA Lic. #1004766</div>
+            </div>
+          </div>
+          <a href="tel:5106145889" class="btn btn-primary" style="margin-top: 8px;">📞 Call Now for Same-Day Service</a>
+        </div>
+
+        <div class="contact-form">
+          <h3>Send Us a Message</h3>
+          <form onsubmit="handleForm(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label>First Name</label>
+                <input type="text" placeholder="John" required />
+              </div>
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" placeholder="Smith" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" placeholder="510-000-0000" required />
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" placeholder="you@email.com" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Service Needed</label>
+              <select required>
+                <option value="" disabled selected>Select a service</option>
+                <option>Water Heater Repair / Installation</option>
+                <option>Drain Cleaning</option>
+                <option>Sewer Line Repair</option>
+                <option>Repiping</option>
+                <option>Leak Detection & Repair</option>
+                <option>Slab Leak</option>
+                <option>Bathroom / Kitchen Remodel</option>
+                <option>Backflow / Gas Line</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Describe Your Issue</label>
+              <textarea placeholder="Tell us what's going on..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Message →</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo" style="margin-bottom:14px;">
+            <span>S4</span>
+            Service 4 Plumbing
+          </div>
+          <p>Family-owned plumbing company serving the San Francisco Bay Area for over 25 years. Licensed, insured and committed to 100% satisfaction.</p>
+          <p style="margin-top: 14px;">CA Contractor's License #1004766</p>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#services">Water Heaters</a></li>
+            <li><a href="#services">Drain Cleaning</a></li>
+            <li><a href="#services">Repiping</a></li>
+            <li><a href="#services">Sewer Repair</a></li>
+            <li><a href="#services">Leak Detection</a></li>
+            <li><a href="#services">Remodeling</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Service Areas</h4>
+          <ul>
+            <li>San Leandro</li>
+            <li>Oakland</li>
+            <li>Fremont</li>
+            <li>Hayward</li>
+            <li>Berkeley</li>
+            <li>San Francisco</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="tel:5106145889">📞 510-614-5889</a></li>
+            <li>2258 Marina Blvd.</li>
+            <li>San Leandro, CA 94577</li>
+            <li style="margin-top: 12px;">Mon–Sat: 7am – 7pm</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Service 4 Plumbing, Inc. · All rights reserved.</span>
+        <div class="footer-cards">
+          <span>We accept:</span>
+          <span class="card-badge">VISA</span>
+          <span class="card-badge">MC</span>
+          <span class="card-badge">AMEX</span>
+          <span class="card-badge">DISCOVER</span>
+          <span class="card-badge">CASH</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING BUTTONS -->
+  <div class="float-btns">
+    <a href="tel:5106145889" class="float-btn float-call" title="Call Now">📞</a>
+    <a href="https://wa.me/15106145889" class="float-btn float-wa" title="WhatsApp" target="_blank">💬</a>
+  </div>
+
+  <script>
+    function handleForm(e) {
+      e.preventDefault();
+      alert('Thank you! We\'ll call you back within 1 hour.\n\nFor immediate assistance, call us at 510-614-5889.');
+      e.target.reset();
+    }
+    function toggleMenu() {
+      const links = document.querySelector('.nav-links');
+      const isOpen = links.classList.contains('mobile-open');
+      if (isOpen) {
+        links.classList.remove('mobile-open');
+        links.removeAttribute('style');
+      } else {
+        links.classList.add('mobile-open');
+        Object.assign(links.style, {
+          display: 'flex',
+          flexDirection: 'column',
+          position: 'absolute',
+          top: '68px',
+          left: '0',
+          right: '0',
+          background: 'white',
+          padding: '20px 24px',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
+          zIndex: '99'
+        });
+      }
+    }
+  </script>
+</body>
+</html>
